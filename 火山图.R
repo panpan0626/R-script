@@ -2,10 +2,12 @@ library(openxlsx)
 library(ggplot2)
 library(ggrepel)
 
-
-data=read.xlsx("KD-vs-NC.gene.xlsx", sheet=1)#读取工作表格
-data$change = ifelse(data$`p-value` < 0.05 & data$FoldChange >= 1.2|data$`p-value` < 0.05&data$FoldChange <= (1/1.2),
+# 一定要写注释
+data<- read.xlsx("KD-vs-NC.gene.xlsx", sheet=1)#读取工作表格
+# 筛选上下调蛋白
+data$change <- ifelse(data$`p-value` < 0.05 & data$FoldChange >= 1.2|data$`p-value` < 0.05&data$FoldChange <= (1/1.2),
                      ifelse(data$FoldChange>= 1.2 ,"Up","Down"),"Stable")
+
 a=table(data$change)
 data$`log2(FoldChange)`<-as.numeric(log2(data$FoldChange))
 data$FoldChange<-as.numeric(data$FoldChange)
